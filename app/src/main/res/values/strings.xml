@@ -21,5 +21,10 @@
     <string name="menu_service">Mis servicios</string>
     <string name="menu_messege">Mis mensajes</string>
     <string name="title_activity_menu">MenuActivity</string>
+    <string name="configuraci_n">Configuración</string>
+    <string name="mi_cuenta">Mi cuenta</string>
+    <string name="salir">Salir</string>
+    <string name="editar_mis_datos">Editar mis datos</string>
+    <string name="nuevo_servicio">Nuevo servicio</string>
 
 </resources>

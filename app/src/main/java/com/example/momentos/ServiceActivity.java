@@ -1,24 +1,15 @@
-package com.example.momentos.ui.gallery;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+package com.example.momentos;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.momentos.R;
-import com.example.momentos.ServiceActivity;
-import com.example.momentos.ServiceFormActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,11 +19,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.EventListener;
 
 import adapters.ServiceAdapter;
 import entity.Service;
 
-public class GalleryFragment extends Fragment {
+public class ServiceActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -40,26 +32,25 @@ public class GalleryFragment extends Fragment {
     private Button btnAddService;
     private RecyclerView recyclerView;
     private ArrayList<Service> arrayList = new ArrayList<>();
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_service);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        recyclerView = (RecyclerView) root.findViewById(R.id.recycleServices);
-        btnAddService = (Button) root.findViewById(R.id.btnAddService);
+        recyclerView = (RecyclerView) findViewById(R.id.recycleServices);
+        btnAddService = (Button) findViewById(R.id.btnAddService);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         getServices();
 
         btnAddService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ServiceFormActivity.class));
+                startActivity(new Intent(ServiceActivity.this, ServiceFormActivity.class));
             }
         });
-        return root;
     }
 
     private void getServices() {

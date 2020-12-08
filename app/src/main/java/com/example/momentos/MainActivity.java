@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.menuCuenta:
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
             default:
                 return super.onOptionsItemSelected(item);
         }
