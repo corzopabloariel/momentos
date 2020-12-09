@@ -39,7 +39,6 @@ public class GalleryFragment extends Fragment {
     private ServiceAdapter serviceAdapter;
     private Button btnAddService;
     private RecyclerView recyclerView;
-    private ArrayList<Service> arrayList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -48,10 +47,10 @@ public class GalleryFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerView = (RecyclerView) root.findViewById(R.id.recycleServices);
         btnAddService = (Button) root.findViewById(R.id.btnAddService);
-
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        getServices();
+        serviceAdapter = new ServiceAdapter(Service.ITEMS);
+        recyclerView.setAdapter(serviceAdapter);
 
         btnAddService.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,28 +61,4 @@ public class GalleryFragment extends Fragment {
         return root;
     }
 
-    private void getServices() {
-        mDatabase.child("services").orderByChild("user_id").equalTo(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for(DataSnapshot ds: dataSnapshot.getChildren()) {
-                        String title = ds.child("title").getValue().toString();
-                        String text = ds.child("text").getValue().toString();
-                        Date onCreate = (Date) ds.child("onCreate").getValue();
-
-                        arrayList.add(new Service(title, text, onCreate, null));
-                    }
-
-                    serviceAdapter = new ServiceAdapter(arrayList, R.layout.service_view);
-                    recyclerView.setAdapter(serviceAdapter);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
 }

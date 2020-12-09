@@ -21,6 +21,7 @@ public class AccessActivity extends AppCompatActivity {
     private EditText editTextEmail, editTextPass;
     private String email, pass;
     private FirebaseAuth mAuth;
+    final LodingLogin lodingLogin = new LodingLogin(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class AccessActivity extends AppCompatActivity {
                 pass = editTextPass.getText().toString();
 
                 if (!email.isEmpty() && !pass.isEmpty()) {
+                    lodingLogin.startLoading();
                     access();
                 } else {
                     Toast.makeText(AccessActivity.this, "Debe completar los datos", Toast.LENGTH_SHORT).show();
@@ -58,6 +60,7 @@ public class AccessActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    lodingLogin.dismissLoading();
                     startActivity(new Intent(AccessActivity.this, MainActivity.class));
                     finish();
                 } else {

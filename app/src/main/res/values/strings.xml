@@ -26,5 +26,5 @@
     <string name="salir">Salir</string>
     <string name="editar_mis_datos">Editar mis datos</string>
     <string name="nuevo_servicio">Nuevo servicio</string>
-
+    <string name="cargando">Cargando ...</string>
 </resources>
