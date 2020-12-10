@@ -36,7 +36,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.service_view, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, _clickListener);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
     }
 
     public interface OnItemClickListener {
-        public void onClick(ServiceAdapter.ViewHolder viewHolder, String id);
+        void onServiceClick(int position);
     }
 
     private String getUd(int position) {
@@ -69,24 +69,28 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+        implements View.OnClickListener {
         private TextView _inputTitle, _inputText, _inputDate;
         private ImageView _image;
         public View _view;
 
-        public ViewHolder(View view) {
-            super(view);
+        OnItemClickListener onItemClickListener;
 
+        public ViewHolder(View view, OnItemClickListener onItemClickListener) {
+            super(view);
+            this.onItemClickListener = onItemClickListener;
             this._view = view;
             this._inputTitle = (TextView) view.findViewById(R.id.inputTitle);
             this._inputText = (TextView) view.findViewById(R.id.inputText);
             this._inputDate = (TextView) view.findViewById(R.id.inputDate);
             this._image = (ImageView) view.findViewById(R.id.image);
+
+            view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            _clickListener.onClick(this, getUd(getAdapterPosition()));
+            onItemClickListener.onServiceClick(getAdapterPosition());
         }
     }
 }

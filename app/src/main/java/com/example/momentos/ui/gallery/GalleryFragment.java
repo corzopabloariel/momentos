@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,7 @@ public class GalleryFragment extends Fragment implements ServiceAdapter.OnItemCl
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private ServiceAdapter serviceAdapter;
     private Button btnAddService;
     private RecyclerView recyclerView;
 
@@ -53,6 +55,7 @@ public class GalleryFragment extends Fragment implements ServiceAdapter.OnItemCl
                 startActivity(new Intent(getActivity(), ServiceFormActivity.class));
             }
         });
+
         return root;
     }
 
@@ -62,12 +65,13 @@ public class GalleryFragment extends Fragment implements ServiceAdapter.OnItemCl
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ServiceAdapter serviceAdapter = new ServiceAdapter(Service.ITEMS, this);
+        serviceAdapter = new ServiceAdapter(Service.ITEMS, this);
         recyclerView.setAdapter(serviceAdapter);
+
     }
 
     @Override
-    public void onClick(ServiceAdapter.ViewHolder viewHolder, String id) {
-
+    public void onServiceClick(int position) {
+        startActivity(new Intent(getActivity(), ServiceFormActivity.class));
     }
 }

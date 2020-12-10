@@ -48,7 +48,7 @@ public class ServiceActivity extends AppCompatActivity implements ServiceAdapter
     }
 
     @Override
-    public void onClick(ServiceAdapter.ViewHolder viewHolder, String id) {
-
+    public void onServiceClick(int position) {
+        startActivity(new Intent(ServiceActivity.this, ServiceFormActivity.class));
     }
 }
