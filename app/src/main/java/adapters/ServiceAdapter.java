@@ -1,15 +1,21 @@
 package adapters;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.momentos.R;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 
 import entity.Service;
@@ -17,17 +23,14 @@ import entity.Service;
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHolder> {
 
     private ArrayList<Service> _servicesList;
+    private ServiceAdapter.OnItemClickListener _clickListener;
 
-    public ServiceAdapter(ArrayList<Service> servicesList) {
+    public ServiceAdapter(ArrayList<Service> servicesList,
+                          ServiceAdapter.OnItemClickListener clickListener) {
         this._servicesList = servicesList;
+        this._clickListener = clickListener;
     }
 
-    /*@Override
-    public ServiceAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.service_view, parent, false);
-        return new ViewHolder(view);
-    }*/
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,8 +42,13 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Service service = _servicesList.get(position);
+        ArrayList<String> images = service.get_images();
+
         holder._inputTitle.setText(service.get_title());
         holder._inputText.setText(service.get_text());
+        holder._inputDate.setText(service.get_onCreate().toString());
+        if (images.size() > 0)
+            holder._image.setImageURI(Uri.parse(images.get(0)));
     }
 
     @Override
@@ -48,8 +56,22 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         return _servicesList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView _inputTitle, _inputText;
+    public interface OnItemClickListener {
+        public void onClick(ServiceAdapter.ViewHolder viewHolder, String id);
+    }
+
+    private String getUd(int position) {
+        if (position != RecyclerView.NO_POSITION) {
+            return _servicesList.get(position).get_uid();
+        } else {
+            return null;
+        }
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
+        private TextView _inputTitle, _inputText, _inputDate;
+        private ImageView _image;
         public View _view;
 
         public ViewHolder(View view) {
@@ -58,6 +80,13 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
             this._view = view;
             this._inputTitle = (TextView) view.findViewById(R.id.inputTitle);
             this._inputText = (TextView) view.findViewById(R.id.inputText);
+            this._inputDate = (TextView) view.findViewById(R.id.inputDate);
+            this._image = (ImageView) view.findViewById(R.id.image);
+        }
+
+        @Override
+        public void onClick(View v) {
+            _clickListener.onClick(this, getUd(getAdapterPosition()));
         }
     }
 }

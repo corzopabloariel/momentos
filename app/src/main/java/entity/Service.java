@@ -22,6 +22,7 @@ import adapters.ServiceAdapter;
 public class Service {
 
     public static final ArrayList<Service> ITEMS = new ArrayList<Service>();
+    public static final ArrayList<Service> MyITEMS = new ArrayList<Service>();
     static DatabaseReference mDatabase;
 
     private String _uid, _title, _text, _userId;
@@ -41,10 +42,7 @@ public class Service {
 
     static {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        FirebaseDatabase.getInstance().getReference("service")
-            .addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("service").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -61,6 +59,26 @@ public class Service {
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) { }
             });
+        /*if (mAuth.getCurrentUser() != null) {
+            FirebaseDatabase.getInstance().getReference("services").orderByChild("user_id").equalTo(mAuth.getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                                String title = ds.child("title").getValue().toString();
+                                String text = ds.child("text").getValue().toString();
+                                String uid = ds.getKey();
+                                Date onCreate = ds.child("onCreate").getValue(Date.class);
+                                MyITEMS.add(new Service(uid, title, text, onCreate));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) { }
+                });
+        }*/
     }
 
     public String get_uid() {

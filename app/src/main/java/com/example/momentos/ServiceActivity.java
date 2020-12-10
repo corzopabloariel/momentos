@@ -17,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import adapters.ServiceAdapter;
 import entity.Service;
 
-public class ServiceActivity extends AppCompatActivity {
+public class ServiceActivity extends AppCompatActivity implements ServiceAdapter.OnItemClickListener {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -43,7 +43,12 @@ public class ServiceActivity extends AppCompatActivity {
     }
 
     private void list(@NonNull RecyclerView recyclerView) {
-        ServiceAdapter serviceAdapter = new ServiceAdapter(Service.ITEMS);
+        ServiceAdapter serviceAdapter = new ServiceAdapter(Service.ITEMS, this);
         recyclerView.setAdapter(serviceAdapter);
+    }
+
+    @Override
+    public void onClick(ServiceAdapter.ViewHolder viewHolder, String id) {
+
     }
 }

@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -26,6 +29,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -71,6 +75,7 @@ public class ServiceFormActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String title = ((EditText) findViewById(R.id.inputTitle)).getText().toString();
                 String description = ((EditText) findViewById(R.id.txtDescription)).getText().toString();
+                double ubication[] = {0, 0};
 
                 if (!title.isEmpty() && !description.isEmpty()) {
                     lodingLogin.startLoading();

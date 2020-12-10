@@ -32,11 +32,10 @@ import java.util.Date;
 import adapters.ServiceAdapter;
 import entity.Service;
 
-public class GalleryFragment extends Fragment {
+public class GalleryFragment extends Fragment implements ServiceAdapter.OnItemClickListener {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    private ServiceAdapter serviceAdapter;
     private Button btnAddService;
     private RecyclerView recyclerView;
 
@@ -47,10 +46,6 @@ public class GalleryFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerView = (RecyclerView) root.findViewById(R.id.recycleServices);
         btnAddService = (Button) root.findViewById(R.id.btnAddService);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        serviceAdapter = new ServiceAdapter(Service.ITEMS);
-        recyclerView.setAdapter(serviceAdapter);
 
         btnAddService.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,4 +56,18 @@ public class GalleryFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        ServiceAdapter serviceAdapter = new ServiceAdapter(Service.ITEMS, this);
+        recyclerView.setAdapter(serviceAdapter);
+    }
+
+    @Override
+    public void onClick(ServiceAdapter.ViewHolder viewHolder, String id) {
+
+    }
 }

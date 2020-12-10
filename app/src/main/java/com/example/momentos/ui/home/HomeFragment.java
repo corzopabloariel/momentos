@@ -31,7 +31,7 @@ import java.util.Date;
 import adapters.ServiceAdapter;
 import entity.Service;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ServiceAdapter.OnItemClickListener {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -46,10 +46,21 @@ public class HomeFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerView = (RecyclerView) root.findViewById(R.id.recycleServices);
-
-        ServiceAdapter serviceAdapter = new ServiceAdapter(Service.ITEMS);
-        recyclerView.setAdapter(serviceAdapter);
         return root;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        ServiceAdapter serviceAdapter = new ServiceAdapter(Service.ITEMS, this);
+        recyclerView.setAdapter(serviceAdapter);
+    }
+
+    @Override
+    public void onClick(ServiceAdapter.ViewHolder viewHolder, String id) {
+
+    }
 }
