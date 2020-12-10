@@ -59,8 +59,8 @@ public class Service {
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) { }
             });
-        /*if (mAuth.getCurrentUser() != null) {
-            FirebaseDatabase.getInstance().getReference("services").orderByChild("user_id").equalTo(mAuth.getCurrentUser().getUid())
+        if (mAuth.getCurrentUser() != null) {
+            FirebaseDatabase.getInstance().getReference("services").orderByChild("userId").equalTo(mAuth.getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -78,7 +78,7 @@ public class Service {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) { }
                 });
-        }*/
+        }
     }
 
     public String get_uid() {

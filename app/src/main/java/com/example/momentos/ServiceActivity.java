@@ -43,7 +43,7 @@ public class ServiceActivity extends AppCompatActivity implements ServiceAdapter
     }
 
     private void list(@NonNull RecyclerView recyclerView) {
-        ServiceAdapter serviceAdapter = new ServiceAdapter(Service.ITEMS, this);
+        ServiceAdapter serviceAdapter = new ServiceAdapter(Service.MyITEMS, this);
         recyclerView.setAdapter(serviceAdapter);
     }
 

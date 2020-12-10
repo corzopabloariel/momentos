@@ -65,7 +65,7 @@ public class GalleryFragment extends Fragment implements ServiceAdapter.OnItemCl
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        serviceAdapter = new ServiceAdapter(Service.ITEMS, this);
+        serviceAdapter = new ServiceAdapter(Service.MyITEMS, this);
         recyclerView.setAdapter(serviceAdapter);
 
     }
